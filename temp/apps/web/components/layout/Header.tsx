@@ -1,7 +1,22 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Heartbeat from "../system/Heartbeat";
 
 export default function Header() {
-  const now = new Date();
+  const [currentTime, setCurrentTime] = useState<string | null>(null);
+
+  useEffect(() => {
+    const updateTime = () => {
+      setCurrentTime(new Date().toLocaleTimeString());
+    };
+
+    updateTime();
+
+    const timer = setInterval(updateTime, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <header
@@ -15,7 +30,9 @@ export default function Header() {
       }}
     >
       <div>
-        <h1 style={{ margin: 0 }}>BetSync OS</h1>
+        <h1 style={{ margin: 0 }}>
+          BetSync OS
+        </h1>
 
         <small style={{ color: "#94a3b8" }}>
           Mission Control Center
@@ -32,7 +49,9 @@ export default function Header() {
           <Heartbeat />
         </div>
 
-        <small>{now.toLocaleTimeString()}</small>
+        <small>
+          {currentTime ?? "--:--:--"}
+        </small>
       </div>
     </header>
   );

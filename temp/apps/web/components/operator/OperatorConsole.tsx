@@ -5,6 +5,7 @@ import {
   getOperatorMessage,
   OperatorState,
 } from "./OperatorBrain";
+import { rememberEvent } from "./OperatorMemory";
 
 const states: OperatorState[] = [
   "monitoring",
@@ -15,6 +16,13 @@ const states: OperatorState[] = [
 export default function OperatorConsole() {
   const [state, setState] =
     useState<OperatorState>("monitoring");
+
+    useEffect(() => {
+  rememberEvent(
+    "system_started",
+    "Sentinel iniciou uma nova sessão operacional."
+  );
+}, []);
 
   useEffect(() => {
   let index = 0;
