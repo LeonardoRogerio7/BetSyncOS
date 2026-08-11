@@ -1,0 +1,25 @@
+:root{
+
+  --bs-background:#08111F;
+  --bs-surface:#121B2E;
+  --bs-surface-light:#1B2740;
+
+  --bs-primary:#00D084;
+  --bs-warning:#F5B301;
+  --bs-danger:#FF5C5C;
+
+  --bs-text:#F8FAFC;
+  --bs-muted:#94A3B8;
+
+  --radius:18px;
+
+}
+
+body{
+
+  background:var(--bs-background);
+  color:var(--bs-text);
+
+  font-family:Arial, Helvetica, sans-serif;
+
+}
