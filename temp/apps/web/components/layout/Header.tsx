@@ -1,3 +1,5 @@
+import Heartbeat from "../system/Heartbeat";
+
 export default function Header() {
   const now = new Date();
 
@@ -27,7 +29,7 @@ export default function Header() {
             fontWeight: "bold",
           }}
         >
-          🟢 ONLINE
+          <Heartbeat />
         </div>
 
         <small>{now.toLocaleTimeString()}</small>
