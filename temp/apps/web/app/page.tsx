@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "../components/layout/Header";
-import Header from "../components/operator/OperatorConsole";
+import OperatorConsole from "../components/operator/OperatorConsole";
 import Dashboard from "../components/dashboard/Dashboard";
 import MissionCockpit from "../components/cockpit/MissionCockpit";
 import Timeline from "../components/timeline/Timeline";
