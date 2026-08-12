@@ -47,3 +47,14 @@ export function getOperatorMessage(
       };
   }
 }
+
+export function getSessionGreeting(
+  isFirstSession: boolean,
+  eventCount: number
+): string {
+  if (isFirstSession) {
+    return "Bom dia, Leonardo. Esta é minha primeira sessão operacional. Minha memória acaba de ser inicializada.";
+  }
+
+  return `Bem-vindo de volta, Leonardo. Reconheci sua sessão anterior. Tenho ${eventCount} eventos registrados na minha memória operacional.`;
+}

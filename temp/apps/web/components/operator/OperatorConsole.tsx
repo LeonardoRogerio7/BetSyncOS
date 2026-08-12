@@ -1,11 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import {
   getOperatorMessage,
+  getSessionGreeting,
   OperatorState,
 } from "./OperatorBrain";
+
 import { rememberEvent } from "./OperatorMemory";
+import { getOperatorContext } from "./OperatorContext";
 
 const states: OperatorState[] = [
   "monitoring",
@@ -17,11 +21,31 @@ export default function OperatorConsole() {
   const [state, setState] =
     useState<OperatorState>("monitoring");
 
+    const [sessionGreeting, setSessionGreeting] = useState(
+  "Inicializando minha memória operacional..."
+);
+
     useEffect(() => {
-  rememberEvent(
-    "system_started",
-    "Sentinel iniciou uma nova sessão operacional."
+  const context = getOperatorContext();
+
+  setSessionGreeting(
+    getSessionGreeting(
+      context.isFirstSession,
+      context.eventCount
+    )
   );
+
+  if (context.isFirstSession) {
+    rememberEvent(
+      "system_started",
+      "Sentinel iniciou sua primeira sessão operacional."
+    );
+  } else {
+    rememberEvent(
+      "system_returned",
+      "Sentinel reconheceu o retorno do operador."
+    );
+  }
 }, []);
 
   useEffect(() => {
@@ -61,7 +85,7 @@ export default function OperatorConsole() {
           fontSize: 18,
         }}
       >
-        {operator.message}
+       {sessionGreeting}
       </p>
 
       <strong
