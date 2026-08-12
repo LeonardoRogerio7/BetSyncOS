@@ -1,19 +1,28 @@
 "use client";
 
-import Header from "../components/layout/Header";
+import { useState } from "react";
+
 import OperatorConsole from "../components/operator/OperatorConsole";
 import Dashboard from "../components/dashboard/Dashboard";
 import MissionCockpit from "../components/cockpit/MissionCockpit";
 import Timeline from "../components/timeline/Timeline";
 
+import type { OperatorState } from "../components/operator/OperatorBrain";
+
 export default function Home() {
+  const [operatorState, setOperatorState] =
+    useState<OperatorState>("monitoring");
+
   return (
     <>
-      <Header />
+      <OperatorConsole
+        state={operatorState}
+        onStateChange={setOperatorState}
+      />
 
-      <OperatorConsole />
-
-      <Dashboard />
+      <Dashboard
+        sentinelState={operatorState}
+      />
 
       <MissionCockpit />
 

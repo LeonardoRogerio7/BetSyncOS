@@ -17,52 +17,57 @@ const states: OperatorState[] = [
   "idle",
 ];
 
-export default function OperatorConsole() {
-  const [state, setState] =
-    useState<OperatorState>("monitoring");
+interface OperatorConsoleProps {
+  state: OperatorState;
+  onStateChange: (state: OperatorState) => void;
+}
 
-    const [sessionGreeting, setSessionGreeting] = useState(
-  "Inicializando minha memória operacional..."
-);
-
-    useEffect(() => {
-  const context = getOperatorContext();
-
-  setSessionGreeting(
-    getSessionGreeting(
-      context.isFirstSession,
-      context.eventCount
-    )
+export default function OperatorConsole({
+  state,
+  onStateChange,
+}: OperatorConsoleProps) {
+  const [sessionGreeting, setSessionGreeting] = useState(
+    "Inicializando minha memória operacional..."
   );
 
-  if (context.isFirstSession) {
-    rememberEvent(
-      "system_started",
-      "Sentinel iniciou sua primeira sessão operacional."
+  useEffect(() => {
+    const context = getOperatorContext();
+
+    setSessionGreeting(
+      getSessionGreeting(
+        context.isFirstSession,
+        context.eventCount
+      )
     );
-  } else {
-    rememberEvent(
-      "system_returned",
-      "Sentinel reconheceu o retorno do operador."
-    );
-  }
-}, []);
+
+    if (context.isFirstSession) {
+      rememberEvent(
+        "system_started",
+        "Sentinel iniciou sua primeira sessão operacional."
+      );
+    } else {
+      rememberEvent(
+        "system_returned",
+        "Sentinel reconheceu o retorno do operador."
+      );
+    }
+  }, []);
 
   useEffect(() => {
-  let index = 0;
+    let index = 0;
 
-  const timer = setInterval(() => {
-    index = (index + 1) % states.length;
+    const timer = setInterval(() => {
+      index = (index + 1) % states.length;
 
-    const nextState = states[index];
+      const nextState = states[index];
 
-    if (nextState) {
-      setState(nextState);
-    }
-  }, 6000);
+      if (nextState) {
+        onStateChange(nextState);
+      }
+    }, 6000);
 
-  return () => clearInterval(timer);
-}, []);
+    return () => clearInterval(timer);
+  }, [onStateChange]);
 
   const operator = getOperatorMessage(state);
 
@@ -85,7 +90,7 @@ export default function OperatorConsole() {
           fontSize: 18,
         }}
       >
-       {sessionGreeting}
+        {sessionGreeting}
       </p>
 
       <strong
